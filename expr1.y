@@ -33,7 +33,10 @@ void yyerror(const char* s);
  expr : expr ADD expr { $$ = $1 + $3; }
  | expr SUB expr { $$ = $1 - $3;}
  | expr MUL expr { $$ = $1 * $3; }
- | expr DIV expr { $$ = $1 / $3; }
+ | expr DIV expr  {  if($3==0)
+                     yyerror("divided by zero.");
+                     else
+                     $$ = $1 / $3;  }
  | LB expr RB { $$ = $2; }
  | SUB expr %prec UMINUS { $$ = -$2; }
  | NUMBER { $$ = $1; }
